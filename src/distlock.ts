@@ -1,7 +1,7 @@
 import 'source-map-support/register'
 import Promise = require('bluebird');
 import redis = require('redis-bluebird');
-import uuid = require('node-uuid');
+import uuid = require('uuid');
 import fs = require('fs');
 
 export class DistLock implements Lock {
