@@ -1,6 +1,6 @@
 {
   "name": "distlock",
-  "version": "1.1.2",
+  "version": "1.2.0-dev",
   "description": "distributed lock implementation using redis, supporting promise and typescript",
   "main": "dist/distlock.js",
   "scripts": {
