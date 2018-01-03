@@ -9,7 +9,7 @@ A distributed lock implementation using redis, supporting promise and typescript
 [![Coverage Status](https://coveralls.io/repos/github/spearhead-ea/distlock/badge.svg?branch=master)](https://coveralls.io/github/spearhead-ea/distlock?branch=master)
 
 # Example
-```
+```javascript
 import { DistLock } from 'distlock';
 import * as redis from 'redis';
 
