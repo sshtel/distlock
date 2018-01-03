@@ -14,15 +14,15 @@ import { DistLock } from 'distlock';
 import * as redis from 'redis';
 
 async tryToDoSomething(): Promise<void> {
-	let l: DistLock;
-	try {
-		l = new DistLock(redis.redisClient, 'lockName');
-		await l.lock();
-		await this.doSomething()
-	} catch (e) {
-		console.log(e);
-	} finally {
-		await l.unlock();
-	}
+  let l: DistLock;
+  try {
+    l = new DistLock(redis.redisClient, 'lockName');
+    await l.lock();
+    await this.doSomething()
+  catch (e) {
+    console.log(e);
+  } finally {
+    await l.unlock();
+ }
 }
 ```
