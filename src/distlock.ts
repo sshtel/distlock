@@ -16,7 +16,7 @@ export class DistLock implements Lock {
 
   public lock(option?: LockOption) {
     if (this.locked) {
-      return Promise.reject<DistLock>(new Error('lock: duplicated'));
+      return Promise.reject(new Error('lock: duplicated'));
     }
     this.locked = true;
     this.id = uuid.v4();
