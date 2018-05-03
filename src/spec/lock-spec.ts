@@ -11,7 +11,7 @@ console.log(host, port);
 
 describe('test lock', () => {
   beforeAll(done => {
-    client = redis.createClient(port || 6379, host);
+    client = redis.createClient(parseInt(port || '6379', 10), host);
     client.once('connect', done);
     client.once('error', done);
   });
