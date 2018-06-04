@@ -7,11 +7,14 @@ import fs = require('fs');
 export class DistLock implements Lock {
 
   private id: string;
-  private script: string;
+  private static script: string;
   private locked: boolean;
 
   constructor(private redisClient: redis.RedisClient,
               private key: string) {
+    if (!DistLock.script) {
+      DistLock.script = fs.readFileSync(__dirname + '/../lua/unlock.lua', {encoding: 'utf8'});
+    }
   }
 
   public lock(option?: LockOption) {
@@ -22,9 +25,9 @@ export class DistLock implements Lock {
     this.id = uuid.v4();
     option = option || {};
 
-    var deferred = Promise.defer<DistLock>();
-    var retry = 0;
-    var tryLock = () => {
+    const deferred = Promise.defer<DistLock>();
+    let retry = 0;
+    const tryLock = () => {
       this.redisClient.set(this.key, this.id, 'PX', option.ttl || 15000, 'NX', (err, locked) => {
         if (err) return deferred.reject(err);
         if (locked) {
@@ -42,16 +45,16 @@ export class DistLock implements Lock {
   }
 
   public unlock() {
-    if (!this.script) {
-      this.script = fs.readFileSync(__dirname + '/../lua/unlock.lua').toString();
-    }
-    var deferred = Promise.defer<number>();
-    this.redisClient.eval(this.script, 1, this.key, this.id, (err, unlocked: number) => {
-      if (err) return deferred.reject(err);
-      this.locked = false;
-      return deferred.resolve(unlocked);
+    return new Promise((resolve, reject) => {
+      this.redisClient.evalAsync(DistLock.script, 1, this.key, this.id)
+        .then(result => {
+          this.locked = false;
+          return resolve(result);
+        })
+        .catch(err => {
+          return reject(err);
+        });
     });
-    return deferred.promise;
   }
 }
 
