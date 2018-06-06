@@ -6,7 +6,7 @@ import { DistLock } from '../distlock';
 var client: redis.RedisClient;
 var get = Promise.promisify((k, c: (err, result) => void) => client.get(k, c));
 
-const [host, port] = (process.env.REDIS_HOST || '192.168.99.100:6379').split(':');
+const [host, port] = (process.env.REDIS_HOST || '127.0.0.1:6379').split(':');
 console.log(host, port);
 
 describe('test lock', () => {
