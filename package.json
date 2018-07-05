@@ -4,11 +4,12 @@
   "description": "distributed lock implementation using redis, supporting promise and typescript",
   "main": "dist/distlock.js",
   "scripts": {
-    "prepublish": "npm run build",
+    "prepublish": "gulp build",
     "build": "gulp build",
-    "watch": "npm run build && gulp watch",
+    "watch": "gulp build && gulp watch",
     "clean": "gulp clean",
-    "test": "npm run build && jasmine"
+    "test": "DEBUG=* ISLAND_LOGGER_LEVEL=crit gulp",
+    "coverage": "gulp coverage"
   },
   "license": "MIT",
   "repository": "spearhead-ea/distlock",
@@ -27,13 +28,7 @@
     "@types/node": "^8.0.3",
     "@types/uuid": "^2.0.29",
     "@types/redis": "^0.12.34",
-    "@types/source-map-support": "^0.2.28",
-    "del": "^2.2.2",
-    "gulp": "^3.9.1",
-    "gulp-istanbul": "^1.1.1",
-    "gulp-jasmine": "^2.4.1",
-    "gulp-sourcemaps": "^1.6.0",
-    "remap-istanbul": "^0.6.4",
-    "typescript": "^2.8.1"
+    "gulp": "^4.0.0",
+    "island-build": "next"
   }
 }
